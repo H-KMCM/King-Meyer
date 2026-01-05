@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 const InquiryPage: React.FC = () => {
   const [formData, setFormData] = useState({
     legalEntityName: '',
+    individualName: '',
     email: '',
     phoneNumber: '',
     verticalAlignment: '',
@@ -18,7 +19,9 @@ const InquiryPage: React.FC = () => {
   useEffect(() => {
     const {
       legalEntityName,
+      individualName,
       email,
+      phoneNumber,
       verticalAlignment,
       systemicInefficiency,
       capitalCommitment,
@@ -30,8 +33,10 @@ const InquiryPage: React.FC = () => {
 
     const isValid =
       legalEntityName.trim() !== '' &&
+      individualName.trim() !== '' &&
       email.trim() !== '' &&
       /\S+@\S+\.\S+/.test(email) &&
+      phoneNumber.trim() !== '' &&
       verticalAlignment.trim() !== '' &&
       systemicInefficiency.trim() !== '' &&
       words.length > 0 && words.length <= 200 &&
@@ -76,12 +81,16 @@ const InquiryPage: React.FC = () => {
             <input type="text" id="legalEntityName" name="legalEntityName" value={formData.legalEntityName} onChange={handleChange} className={inputStyle} placeholder="No individuals without a holding structure" />
           </div>
           <div>
+            <label htmlFor="individualName" className={labelStyle}>Individual Name</label>
+            <input type="text" id="individualName" name="individualName" value={formData.individualName} onChange={handleChange} className={inputStyle} placeholder="Primary individual contact name" required />
+          </div>
+          <div>
             <label htmlFor="email" className={labelStyle}>Contact Email</label>
             <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className={inputStyle} placeholder="Primary institutional contact email" required />
           </div>
           <div>
-            <label htmlFor="phoneNumber" className={labelStyle}>Contact Phone (Optional)</label>
-            <input type="tel" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} className={inputStyle} placeholder="Optional contact number" />
+            <label htmlFor="phoneNumber" className={labelStyle}>Contact Phone</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} className={inputStyle} placeholder="Primary contact number" required />
           </div>
           <div>
             <label htmlFor="verticalAlignment" className={labelStyle}>Proposed Vertical Alignment</label>
