@@ -13,6 +13,9 @@ import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { SiteProvider } from './context/SiteContext';
+import InstitutionalLoginPage from './pages/InstitutionalLoginPage';
+import InstitutionalPortalPage from './pages/InstitutionalPortalPage';
+import InstitutionalProtectedRoute from './components/InstitutionalProtectedRoute';
 
 function App() {
   return (
@@ -26,6 +29,8 @@ function App() {
           <Route path="/institutional-access" element={<InstitutionalAccessPage />} />
           <Route path="/intelligence-theses" element={<IntelligenceThesesPage />} />
           <Route path="/inquiry" element={<InquiryPage />} />
+          
+          {/* Admin Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route 
             path="/admin" 
@@ -35,6 +40,18 @@ function App() {
               </ProtectedRoute>
             } 
           />
+
+          {/* Institutional Investor Routes */}
+          <Route path="/institutional-login" element={<InstitutionalLoginPage />} />
+          <Route 
+            path="/institutional-portal" 
+            element={
+              <InstitutionalProtectedRoute>
+                <InstitutionalPortalPage />
+              </InstitutionalProtectedRoute>
+            } 
+          />
+
         </Routes>
       </Layout>
     </SiteProvider>

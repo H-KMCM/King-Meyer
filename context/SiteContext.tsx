@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Default Data
@@ -33,30 +34,42 @@ const defaultSettings = {
     primary: '#0F172A', // Navy
     secondary: '#B45309', // Gold
   },
+  logo: '',
   slogan: 'High-Conviction Capital & Strategic Operations.',
   seo: {
     title: 'King & Meyer | Strategic Holding Core',
     description: 'A web application for King & Meyer, a strategic holding core and capital platform, showcasing their doctrine and operational philosophy with a private office aesthetic.',
     gaId: ''
   },
-  theses: defaultTheses
+  theses: defaultTheses,
+  adminPassword: 'km-admin-2026',
+  investorPassword: 'km-investor-2025'
 };
 
-const SiteContext = createContext(null);
+const SiteContext = createContext<any>(null);
 
-// FIX: Add type for SiteProvider props to ensure `children` is correctly handled.
 export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState(() => {
     try {
       const savedSettings = localStorage.getItem('km-site-settings');
-      return savedSettings ? JSON.parse(savedSettings) : defaultSettings;
+      if (savedSettings) {
+        // Simple migration: ensure all default keys exist
+        const parsed = JSON.parse(savedSettings);
+        return { ...defaultSettings, ...parsed };
+      }
+      return defaultSettings;
     } catch (error) {
+      console.error("Failed to parse settings from localStorage", error);
       return defaultSettings;
     }
   });
 
   useEffect(() => {
-    localStorage.setItem('km-site-settings', JSON.stringify(settings));
+    try {
+      localStorage.setItem('km-site-settings', JSON.stringify(settings));
+    } catch (error) {
+      console.error("Failed to save settings to localStorage", error);
+    }
 
     // Apply Theme
     document.documentElement.style.setProperty('--color-navy', settings.theme.primary);
@@ -73,46 +86,38 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
     metaDesc.setAttribute('content', settings.seo.description);
 
     // Apply GA Script
-    const gaScriptId = 'ga-script';
-    const gaScript = document.getElementById(gaScriptId);
+    Array.from(document.head.querySelectorAll('script[id^="ga-script"]')).forEach(s => s.remove());
+    Array.from(document.head.querySelectorAll('script[id^="ga-datalayer-script"]')).forEach(s => s.remove());
+
     if (settings.seo.gaId) {
-        if (!gaScript) {
-            // FIX: Create a new script element with the correct type `HTMLScriptElement` to access properties like `async` and `src`.
-            const newGaScript = document.createElement('script');
-            newGaScript.id = gaScriptId;
-            newGaScript.async = true;
-            newGaScript.src = `https://www.googletagmanager.com/gtag/js?id=${settings.seo.gaId}`;
-            document.head.appendChild(newGaScript);
+        const gaScript = document.createElement('script');
+        gaScript.id = 'ga-script';
+        gaScript.async = true;
+        gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${settings.seo.gaId}`;
+        document.head.appendChild(gaScript);
 
-            const dataLayerScript = document.createElement('script');
-            dataLayerScript.innerHTML = `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${settings.seo.gaId}');
-            `;
-            document.head.appendChild(dataLayerScript);
-        }
-    } else {
-        if (gaScript) {
-            // A bit messy to remove all GA scripts, but good enough for this context
-            Array.from(document.head.querySelectorAll('script')).forEach(s => {
-                if(s.src.includes('googletagmanager') || s.innerHTML.includes('dataLayer')) {
-                    s.remove();
-                }
-            })
-        }
+        const dataLayerScript = document.createElement('script');
+        dataLayerScript.id = 'ga-datalayer-script';
+        dataLayerScript.innerHTML = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${settings.seo.gaId}');
+        `;
+        document.head.appendChild(dataLayerScript);
     }
-
 
   }, [settings]);
 
   const value = {
     ...settings,
-    setTheme: (newTheme) => setSettings(s => ({ ...s, theme: { ...s.theme, ...newTheme } })),
-    setSlogan: (newSlogan) => setSettings(s => ({ ...s, slogan: newSlogan })),
-    setSeo: (newSeo) => setSettings(s => ({ ...s, seo: { ...s.seo, ...newSeo } })),
-    setTheses: (newTheses) => setSettings(s => ({ ...s, theses: newTheses })),
+    setTheme: (newTheme: any) => setSettings((s: any) => ({ ...s, theme: { ...s.theme, ...newTheme } })),
+    setLogo: (newLogo: string) => setSettings((s: any) => ({ ...s, logo: newLogo })),
+    setSlogan: (newSlogan: string) => setSettings((s: any) => ({ ...s, slogan: newSlogan })),
+    setSeo: (newSeo: any) => setSettings((s: any) => ({ ...s, seo: { ...s.seo, ...newSeo } })),
+    setTheses: (newTheses: any) => setSettings((s: any) => ({ ...s, theses: newTheses })),
+    setAdminPassword: (newPassword: string) => setSettings((s: any) => ({ ...s, adminPassword: newPassword })),
+    setInvestorPassword: (newPassword: string) => setSettings((s: any) => ({ ...s, investorPassword: newPassword })),
   };
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;

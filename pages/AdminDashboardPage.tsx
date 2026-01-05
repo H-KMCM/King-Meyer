@@ -1,83 +1,42 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { useSite } from '../context/SiteContext';
 import { useNavigate } from 'react-router-dom';
 import { Edit, Trash2, PlusCircle, Info, LogOut } from 'lucide-react';
 
-// FIX: AdminSection component was defined inside AdminDashboardPage, causing re-definitions on each render and potential type inference issues. It has been moved to the module scope and its props have been explicitly typed.
+// AdminSection component for consistent panel styling
 interface AdminSectionProps {
   title: string;
   children: React.ReactNode;
 }
 
 const AdminSection: React.FC<AdminSectionProps> = ({ title, children }) => (
-  <div className="bg-white p-6 md:p-8 shadow-md border border-slate/10 mb-8">
+  <div className="bg-white p-6 md:p-8 shadow-sm border border-slate/10 mb-8">
     <h2 className="text-xl font-bold text-navy mb-6 border-b border-slate/10 pb-4 font-serif">{title}</h2>
     {children}
   </div>
 );
 
-const AdminDashboardPage: React.FC = () => {
-  const { theme, slogan, seo, theses, setTheme, setSlogan, setSeo, setTheses } = useSite();
-  const navigate = useNavigate();
+// InputField component for consistent form elements
+interface InputFieldProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  name: string;
+  type?: string;
+  tooltip?: string;
+  placeholder?: string;
+}
 
-  const [localTheme, setLocalTheme] = useState(theme);
-  const [localSlogan, setLocalSlogan] = useState(slogan);
-  const [localSeo, setLocalSeo] = useState(seo);
-  const [editingThesis, setEditingThesis] = useState(null);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem('km-auth');
-    navigate('/login');
-  };
-
-  const handleThemeSave = () => setTheme(localTheme);
-  const handleSloganSave = () => setSlogan(localSlogan);
-  const handleSeoSave = () => setSeo(localSeo);
-  
-  const handleAddNewThesis = () => {
-    setEditingThesis({
-      id: `new-${Date.now()}`,
-      title: '',
-      description: '',
-      lead: false,
-      imageUrl: '',
-      excerpt: ''
-    });
-  }
-
-  const handleSaveThesis = (thesisToSave) => {
-    if(thesisToSave.id.startsWith('new-')) {
-      // It's a new thesis
-      setTheses([...theses, {...thesisToSave, id: `${Date.now()}`}]);
-    } else {
-      // It's an existing thesis
-      setTheses(theses.map(t => t.id === thesisToSave.id ? thesisToSave : t));
-    }
-    setEditingThesis(null);
-  }
-
-  const handleDeleteThesis = (thesisId) => {
-    if(window.confirm('Are you sure you want to delete this thesis? This action cannot be undone.')) {
-      setTheses(theses.filter(t => t.id !== thesisId));
-    }
-  }
-
-  // FIX: Define a props interface for InputField to make `tooltip` optional.
-  interface InputFieldProps {
-    label: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    name: string;
-    type?: string;
-    tooltip?: string;
-  }
-
-  const InputField = ({ label, value, onChange, name, type = 'text', tooltip }: InputFieldProps) => (
+const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, name, type = 'text', tooltip, placeholder }) => (
     <div className="mb-4">
       <label className="text-gold uppercase text-xs tracking-widest font-bold flex items-center">
         {label}
-        {/* FIX: The `title` prop is not valid for `lucide-react` components. To display a tooltip, wrap the icon in a `span` with a `title` attribute. */}
-        {tooltip && <span title={tooltip}><Info size={12} className="ml-2 text-slate" /></span>}
+        {tooltip && (
+          <span title={tooltip} className="cursor-help">
+            <Info size={12} className="ml-2 text-slate" />
+          </span>
+        )}
       </label>
       {type === 'textarea' ? (
         <textarea
@@ -86,6 +45,7 @@ const AdminDashboardPage: React.FC = () => {
           onChange={onChange}
           rows={5}
           className="mt-2 w-full bg-ghost border border-slate/30 p-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold transition-all"
+          placeholder={placeholder}
         />
       ) : (
         <input
@@ -94,17 +54,20 @@ const AdminDashboardPage: React.FC = () => {
           value={value}
           onChange={onChange}
           className="mt-2 w-full bg-ghost border border-slate/30 p-3 text-navy focus:outline-none focus:ring-2 focus:ring-gold transition-all"
+          placeholder={placeholder}
         />
       )}
     </div>
-  );
-  
-  const ThesisForm = ({ thesis, onSave, onCancel }) => {
+);
+
+// ThesisForm modal component
+const ThesisForm: React.FC<{ thesis: any; onSave: (thesis: any) => void; onCancel: () => void; }> = ({ thesis, onSave, onCancel }) => {
     const [formState, setFormState] = useState(thesis);
     
-    const handleChange = e => {
-      const { name, value, type, checked } = e.target;
-      setFormState(prev => ({...prev, [name]: type === 'checkbox' ? checked : value}));
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value, type } = e.target;
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormState((prev: any) => ({...prev, [name]: type === 'checkbox' ? checked : value}));
     };
     
     return (
@@ -126,7 +89,83 @@ const AdminDashboardPage: React.FC = () => {
         </div>
       </div>
     );
+};
+
+
+const AdminDashboardPage: React.FC = () => {
+  const { theme, logo, slogan, seo, theses, setLogo, setAdminPassword, setTheme, setSlogan, setSeo, setTheses } = useSite();
+  const navigate = useNavigate();
+
+  const [localTheme, setLocalTheme] = useState(theme);
+  const [localLogo, setLocalLogo] = useState(logo);
+  const [localSlogan, setLocalSlogan] = useState(slogan);
+  const [localSeo, setLocalSeo] = useState(seo);
+  const [editingThesis, setEditingThesis] = useState<any>(null);
+  const [newAdminPassword, setNewAdminPassword] = useState({ code: '', confirm: '' });
+  const [passwordFeedback, setPasswordFeedback] = useState({ error: '', success: '' });
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('km-auth');
+    navigate('/login');
   };
+
+  const handleThemeSave = () => setTheme(localTheme);
+  const handleLogoSave = () => setLogo(localLogo);
+  const handleSloganSave = () => setSlogan(localSlogan);
+  const handleSeoSave = () => setSeo(localSeo);
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLocalLogo(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const handleAddNewThesis = () => {
+    setEditingThesis({
+      id: `new-${Date.now()}`,
+      title: '',
+      description: '',
+      lead: false,
+      imageUrl: '',
+      excerpt: ''
+    });
+  }
+
+  const handleSaveThesis = (thesisToSave: any) => {
+    if (thesisToSave.id.startsWith('new-')) {
+      setTheses([...theses, {...thesisToSave, id: `${Date.now()}`}]);
+    } else {
+      setTheses(theses.map((t: any) => t.id === thesisToSave.id ? thesisToSave : t));
+    }
+    setEditingThesis(null);
+  }
+
+  const handleDeleteThesis = (thesisId: string) => {
+    if (window.confirm('Are you sure you want to delete this thesis? This action cannot be undone.')) {
+      setTheses(theses.filter((t: any) => t.id !== thesisId));
+    }
+  }
+
+  const handleAdminPasswordSave = () => {
+    setPasswordFeedback({ error: '', success: '' });
+    if (!newAdminPassword.code || newAdminPassword.code.length < 8) {
+        setPasswordFeedback({ error: 'New code must be at least 8 characters long.', success: '' });
+        return;
+    }
+    if (newAdminPassword.code !== newAdminPassword.confirm) {
+        setPasswordFeedback({ error: 'Access codes do not match.', success: '' });
+        return;
+    }
+    setAdminPassword(newAdminPassword.code);
+    setPasswordFeedback({ error: '', success: 'Admin access code updated successfully.' });
+    setNewAdminPassword({ code: '', confirm: '' });
+  };
+
 
   return (
     <main className="min-h-screen pt-40 pb-20 bg-ghost">
@@ -138,8 +177,32 @@ const AdminDashboardPage: React.FC = () => {
                 <LogOut size={16} /> Logout
             </button>
         </div>
+
+        <AdminSection title="Company Branding">
+            <InputField 
+              label="Logo URL" 
+              name="logoUrl" 
+              value={localLogo} 
+              onChange={e => setLocalLogo(e.target.value)}
+              placeholder="https://example.com/logo.png"
+              tooltip="Paste an image URL or upload a file below."
+            />
+            <div className="mb-4">
+                <label className="text-gold uppercase text-xs tracking-widest font-bold">Upload Logo File</label>
+                <input type="file" onChange={handleLogoUpload} accept="image/*" className="mt-2 text-sm text-slate file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gold/10 file:text-gold hover:file:bg-gold/20" />
+            </div>
+            {localLogo && (
+                <div className="mt-4 p-4 border border-slate/20">
+                    <p className="text-sm font-bold text-navy mb-2">Logo Preview:</p>
+                    <img src={localLogo} alt="Logo preview" className="max-h-16 bg-navy p-2" />
+                </div>
+            )}
+            <div className="flex gap-4 mt-4">
+                <button onClick={handleLogoSave} className="bg-navy text-white px-6 py-2 text-sm uppercase tracking-widest font-bold hover:bg-slate-800 transition-all">Save Branding</button>
+                <button onClick={() => setLocalLogo('')} className="border border-slate/30 text-navy px-6 py-2 text-sm uppercase tracking-widest font-bold hover:bg-slate/10 transition-all">Remove Logo</button>
+            </div>
+        </AdminSection>
         
-        {/* Theme Editor */}
         <AdminSection title="Theme Editor">
           <div className="grid md:grid-cols-2 gap-6">
             <InputField 
@@ -160,7 +223,30 @@ const AdminDashboardPage: React.FC = () => {
           <button onClick={handleThemeSave} className="mt-4 bg-navy text-white px-6 py-2 text-sm uppercase tracking-widest font-bold hover:bg-slate-800 transition-all">Save Theme</button>
         </AdminSection>
 
-        {/* Site Slogan */}
+        <AdminSection title="Security & Access">
+          <div className="grid md:grid-cols-2 gap-6">
+             <InputField 
+              label="New Admin Access Code" 
+              name="code"
+              type="password"
+              value={newAdminPassword.code}
+              onChange={e => setNewAdminPassword({...newAdminPassword, code: e.target.value})}
+              placeholder="Min. 8 characters"
+            />
+             <InputField 
+              label="Confirm New Access Code" 
+              name="confirm"
+              type="password"
+              value={newAdminPassword.confirm}
+              onChange={e => setNewAdminPassword({...newAdminPassword, confirm: e.target.value})}
+              placeholder="Confirm new code"
+            />
+          </div>
+          {passwordFeedback.error && <p className="text-red-600 text-sm mt-2">{passwordFeedback.error}</p>}
+          {passwordFeedback.success && <p className="text-green-600 text-sm mt-2">{passwordFeedback.success}</p>}
+          <button onClick={handleAdminPasswordSave} className="mt-4 bg-navy text-white px-6 py-2 text-sm uppercase tracking-widest font-bold hover:bg-slate-800 transition-all">Save New Access Code</button>
+        </AdminSection>
+
         <AdminSection title="Site Slogan">
            <InputField 
               label="Header Slogan" 
@@ -172,16 +258,15 @@ const AdminDashboardPage: React.FC = () => {
            <button onClick={handleSloganSave} className="mt-4 bg-navy text-white px-6 py-2 text-sm uppercase tracking-widest font-bold hover:bg-slate-800 transition-all">Save Slogan</button>
         </AdminSection>
         
-        {/* Content Manager */}
         <AdminSection title="Content: Intelligence & Theses">
           <div className="space-y-4">
-            {theses.map(thesis => (
-              <div key={thesis.id} className="flex justify-between items-center p-4 border border-slate/20">
+            {theses.map((thesis: any) => (
+              <div key={thesis.id} className="flex justify-between items-center p-4 border border-slate/20 rounded-md">
                 <div>
-                  <p className="font-bold text-navy">{thesis.title}</p>
+                  <p className="font-bold text-navy">{thesis.title} {thesis.lead && <span className="text-xs bg-gold text-white px-2 py-0.5 rounded-full ml-2">LEAD</span>}</p>
                   <p className="text-sm text-slate">{thesis.description}</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-4 flex-shrink-0">
                   <button onClick={() => setEditingThesis(thesis)} title="Edit"><Edit className="text-slate hover:text-gold" /></button>
                   <button onClick={() => handleDeleteThesis(thesis.id)} title="Delete"><Trash2 className="text-slate hover:text-red-600" /></button>
                 </div>
@@ -193,7 +278,6 @@ const AdminDashboardPage: React.FC = () => {
           </button>
         </AdminSection>
 
-        {/* SEO Manager */}
         <AdminSection title="SEO Manager">
           <InputField 
             label="Meta Title" 
@@ -213,7 +297,7 @@ const AdminDashboardPage: React.FC = () => {
            <InputField 
             label="Google Analytics ID" 
             name="gaId" 
-            value={localSeo.gaId} 
+            value={localSeo.gaId || ''} 
             onChange={e => setLocalSeo({...localSeo, gaId: e.target.value})}
             tooltip="e.g., G-XXXXXXXXXX. Leave blank to disable."
           />

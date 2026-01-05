@@ -3,17 +3,17 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSite } from '../context/SiteContext';
 
-const LoginPage: React.FC = () => {
+const InstitutionalLoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { adminPassword } = useSite();
+  const { investorPassword } = useSite();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === adminPassword) {
-      sessionStorage.setItem('km-auth', 'true');
-      navigate('/admin');
+    if (password === investorPassword) {
+      sessionStorage.setItem('km-institutional-auth', 'true');
+      navigate('/institutional-portal');
     } else {
       setError('Invalid Access Code.');
     }
@@ -23,9 +23,9 @@ const LoginPage: React.FC = () => {
     <main className="min-h-screen pt-40 pb-20 bg-ghost flex items-center justify-center">
       <div className="w-full max-w-md mx-auto p-8 bg-white shadow-md">
         <div className="text-center">
-          <span className="text-gold text-xs uppercase tracking-[0.5em] font-bold">Admin Access</span>
+          <span className="text-gold text-xs uppercase tracking-[0.5em] font-bold">Institutional Access</span>
           <h1 className="text-navy text-3xl md:text-5xl mt-6 leading-tight font-serif">
-            Admin Control Panel
+            Secure Portal Login
           </h1>
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
@@ -52,4 +52,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default InstitutionalLoginPage;

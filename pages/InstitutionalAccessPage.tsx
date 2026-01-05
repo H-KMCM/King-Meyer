@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const InstitutionalAccessPage: React.FC = () => {
   return (
@@ -18,9 +19,9 @@ const InstitutionalAccessPage: React.FC = () => {
             Entry to the Investor Portal requires verification of institutional status.
           </p>
           <div className="mt-12">
-            <button className="bg-gold text-white px-10 py-5 text-sm uppercase tracking-widest font-bold hover:bg-amber-700 transition-all text-center">
+            <Link to="/institutional-login" className="bg-gold text-white px-10 py-5 text-sm uppercase tracking-widest font-bold hover:bg-amber-700 transition-all text-center inline-block">
               Request Access / Secure Login
-            </button>
+            </Link>
           </div>
         </div>
       </div>
