@@ -32,18 +32,18 @@ const InstitutionalAccessPage: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const inputStyle = "mt-2 w-full bg-white border border-slate/30 p-3 text-navy placeholder-slate/50 focus:outline-none focus:ring-2 focus:ring-gold transition-all";
+  const inputStyle = "mt-2 w-full bg-slate-800/50 border border-white/20 p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold transition-all";
   const labelStyle = "text-gold uppercase text-xs tracking-widest font-bold";
 
   return (
-    <main className="min-h-screen pt-40 pb-20 bg-ghost">
+    <main className="min-h-screen pt-40 pb-20 bg-navy">
       <div className="px-12 md:px-24 max-w-3xl mx-auto">
         <div className="text-center">
           <span className="text-gold text-xs uppercase tracking-[0.5em] font-bold">Institutional Access</span>
-          <h1 className="text-navy text-4xl md:text-7xl mt-6 leading-tight font-serif">
+          <h1 className="text-white text-4xl md:text-7xl mt-6 leading-tight font-serif">
             Request Portal Access.
           </h1>
-          <p className="text-slate mt-8 max-w-2xl mx-auto text-lg leading-relaxed font-light">
+          <p className="text-slate-300 mt-8 max-w-2xl mx-auto text-lg leading-relaxed font-light">
             Our platform is reserved for Family Offices, UHNWIs, and Institutional Allocators. Please submit your details for verification. Access is typically granted within one business day.
           </p>
         </div>
@@ -89,14 +89,14 @@ const InstitutionalAccessPage: React.FC = () => {
             <textarea id="message" name="message" value={formData.message} onChange={handleChange} rows={4} placeholder="Briefly state your area of interest (e.g., Legacy Assets, NEON)." className={inputStyle}></textarea>
           </div>
           <div>
-            <button type="submit" disabled={!isFormValid} className="w-full bg-gold text-white px-10 py-4 text-sm uppercase tracking-widest font-bold transition-all disabled:bg-slate-300 disabled:cursor-not-allowed enabled:hover:bg-amber-700">
+            <button type="submit" disabled={!isFormValid} className="w-full bg-gold text-white px-10 py-4 text-sm uppercase tracking-widest font-bold transition-all disabled:bg-slate-500 disabled:cursor-not-allowed enabled:hover:bg-amber-700">
               Submit Access Request
             </button>
           </div>
         </form>
 
-        <div className="text-center mt-16 border-t border-slate/20 pt-8">
-            <p className="text-slate text-sm font-light">Already have access?</p>
+        <div className="text-center mt-16 border-t border-white/10 pt-8">
+            <p className="text-slate-300 text-sm font-light">Already have access?</p>
             <Link to="/institutional-login" className="text-gold font-bold uppercase tracking-widest text-xs hover:underline mt-2 inline-block">
                 Proceed to Secure Login
             </Link>
