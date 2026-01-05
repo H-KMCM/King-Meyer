@@ -76,12 +76,12 @@ const InstitutionalAccessPage: React.FC = () => {
           <div>
             <label htmlFor="aum" className={labelStyle}>Assets Under Management (AUM)</label>
             <select id="aum" name="aum" value={formData.aum} onChange={handleChange} className={inputStyle} required>
-              <option value="" disabled>Select AUM Range...</option>
-              <option value="< $50M">Less than $50M</option>
-              <option value="$50M - $250M">$50M - $250M</option>
-              <option value="$250M - $1B">$250M - $1B</option>
-              <option value="$1B - $5B">$1B - $5B</option>
-              <option value="> $5B">Greater than $5B</option>
+              <option value="" disabled className="text-slate-500">Select AUM Range...</option>
+              <option className="text-black" value="< $50M">Less than $50M</option>
+              <option className="text-black" value="$50M - $250M">$50M - $250M</option>
+              <option className="text-black" value="$250M - $1B">$250M - $1B</option>
+              <option className="text-black" value="$1B - $5B">$1B - $5B</option>
+              <option className="text-black" value="> $5B">Greater than $5B</option>
             </select>
           </div>
           <div>
