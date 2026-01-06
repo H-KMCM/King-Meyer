@@ -5,7 +5,7 @@ import { useSite } from '../context/SiteContext';
 import { Menu, X } from 'lucide-react';
 
 const Header: React.FC = () => {
-  const { slogan, logo } = useSite();
+  const { logo } = useSite();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -63,7 +63,6 @@ const Header: React.FC = () => {
               </span>
             )}
           </Link>
-          {slogan && <p className="text-slate/50 text-[10px] tracking-widest mt-1 hidden sm:block">{slogan}</p>}
         </div>
         
         {/* Desktop Navigation */}
