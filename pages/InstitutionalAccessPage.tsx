@@ -13,6 +13,8 @@ const InstitutionalAccessPage: React.FC = () => {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
+  // State to manage select text color due to cross-browser rendering issues with <option> styles.
+  const [aumSelectColor, setAumSelectColor] = useState('text-white');
 
   useEffect(() => {
     const { fullName, email, institutionName, aum } = formData;
@@ -34,6 +36,12 @@ const InstitutionalAccessPage: React.FC = () => {
 
   const inputStyle = "mt-2 w-full bg-slate-800/50 border border-white/20 p-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-gold transition-all";
   const labelStyle = "text-gold uppercase text-xs tracking-widest font-bold";
+
+  // When no value is selected, we want the placeholder color. Otherwise, use the dynamic color from state.
+  const dynamicSelectColor = formData.aum ? aumSelectColor : 'text-slate-400';
+
+  // Inline styles for options to force readability in native browser pickers
+  const optionStyle = { color: 'black', backgroundColor: 'white' };
 
   return (
     <main className="min-h-screen pt-40 pb-20 bg-navy">
@@ -75,13 +83,27 @@ const InstitutionalAccessPage: React.FC = () => {
           </div>
           <div>
             <label htmlFor="aum" className={labelStyle}>Assets Under Management (AUM)</label>
-            <select id="aum" name="aum" value={formData.aum} onChange={handleChange} className={inputStyle} required>
-              <option value="" disabled>Select AUM Range...</option>
-              <option style={{ color: 'black' }} value="< $50M">Less than $50M</option>
-              <option style={{ color: 'black' }} value="$50M - $250M">$50M - $250M</option>
-              <option style={{ color: 'black' }} value="$250M - $1B">$250M - $1B</option>
-              <option style={{ color: 'black' }} value="$1B - $5B">$1B - $5B</option>
-              <option style={{ color: 'black' }} value="> $5B">Greater than $5B</option>
+            {/* 
+              Workaround for browsers (like Safari) that ignore color styles on <option> elements.
+              By applying BOTH backgroundColor: 'white' and color: 'black' directly to options,
+              we force most native pickers to render readable text.
+            */}
+            <select 
+              id="aum" 
+              name="aum" 
+              value={formData.aum} 
+              onChange={handleChange} 
+              onFocus={() => setAumSelectColor('text-black')}
+              onBlur={() => setAumSelectColor('text-white')}
+              className={`${inputStyle.replace('text-white', '').replace('placeholder-slate-400', '')} ${dynamicSelectColor}`}
+              required
+            >
+              <option value="" disabled style={optionStyle}>Select AUM Range...</option>
+              <option value="< $50M" style={optionStyle}>Less than $50M</option>
+              <option value="$50M - $250M" style={optionStyle}>$50M - $250M</option>
+              <option value="$250M - $1B" style={optionStyle}>$250M - $1B</option>
+              <option value="$1B - $5B" style={optionStyle}>$1B - $5B</option>
+              <option value="> $5B" style={optionStyle}>Greater than $5B</option>
             </select>
           </div>
           <div>

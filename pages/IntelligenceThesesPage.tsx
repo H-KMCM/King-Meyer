@@ -45,7 +45,7 @@ const IntelligenceThesesPage: React.FC = () => {
                   </div>
                    <div className="mt-8">
                       <Link to="/institutional-access" className="bg-navy text-white px-8 py-3 text-sm uppercase tracking-widest font-bold hover:bg-slate-800 transition-all text-center">
-                        Request Full PDF via Institutional Access
+                        Request Full PDF
                       </Link>
                     </div>
                 </div>
