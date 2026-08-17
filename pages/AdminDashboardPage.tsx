@@ -206,18 +206,18 @@ const AdminDashboardPage: React.FC = () => {
         <AdminSection title="Theme Editor">
           <div className="grid md:grid-cols-2 gap-6">
             <InputField 
-              label="Primary Color (Navy)" 
+              label="Primary Colour (Navy)" 
               name="primary" 
               value={localTheme.primary} 
               onChange={e => setLocalTheme({...localTheme, primary: e.target.value})}
-              tooltip="This controls the main background colors like headers and footers."
+              tooltip="This controls the main background colours like headers and footers."
             />
             <InputField 
-              label="Secondary Color (Gold)" 
+              label="Secondary Colour (Gold)" 
               name="secondary" 
               value={localTheme.secondary} 
               onChange={e => setLocalTheme({...localTheme, secondary: e.target.value})}
-              tooltip="This controls accent colors for buttons, links, and highlights."
+              tooltip="This controls accent colours for buttons, links, and highlights."
             />
           </div>
           <button onClick={handleThemeSave} className="mt-4 bg-navy text-white px-6 py-2 text-sm uppercase tracking-widest font-bold hover:bg-slate-800 transition-all">Save Theme</button>

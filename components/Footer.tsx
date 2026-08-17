@@ -6,8 +6,8 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-navy text-white/40 py-16 px-6 md:px-12 border-t border-white/10 text-center">
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-[10px] tracking-[0.2em] uppercase leading-relaxed">
-          King & Meyer Holdings Limited (Company No. 16053522) is an Appointed Representative of Thornbridge Investment Management LLP, which is authorised and regulated by the Financial Conduct Authority (FCA).
+        <div className="text-[10px] tracking-[0.2em] uppercase leading-relaxed text-slate-300">
+          King & Meyer Holdings Limited (Company No. 16053522) is currently going through the process for regulation via an AIFM (Alternative Investment Fund Manager). Regulatory authorisation is pending.
         </div>
         
         <div className="text-[9px] tracking-widest leading-relaxed opacity-60">

@@ -8,7 +8,7 @@ const focusAreas = [
   },
   {
     title: 'The Performance Gap',
-    description: 'Solving the burn-out and under-utilization of the world’s most intense leaders (Neuro-Performance).'
+    description: 'Solving the burn-out and under-utilisation of the world’s most intense leaders (Neuro-Performance).'
   },
   {
     title: 'Capital Fragility',

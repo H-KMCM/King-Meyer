@@ -16,7 +16,7 @@ const IntelligenceThesesPage: React.FC = () => {
             The Architecture of Conviction.
           </h1>
           <p className="text-slate mt-8 max-w-3xl mx-auto text-xl leading-relaxed font-light">
-            Systemic analysis on market fragility, longevity economics, and cognitive optimization.
+            Systemic analysis on market fragility, longevity economics, and cognitive optimisation.
           </p>
         </div>
         <div className="mt-24 space-y-24">

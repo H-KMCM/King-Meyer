@@ -10,7 +10,7 @@ const InquiryPage: React.FC = () => {
     verticalAlignment: '',
     systemicInefficiency: '',
     capitalCommitment: '',
-    controlAcknowledgment: false,
+    controlAcknowledgement: false,
   });
 
   const [wordCount, setWordCount] = useState(0);
@@ -25,7 +25,7 @@ const InquiryPage: React.FC = () => {
       verticalAlignment,
       systemicInefficiency,
       capitalCommitment,
-      controlAcknowledgment,
+      controlAcknowledgement,
     } = formData;
 
     const words = systemicInefficiency.trim().split(/\s+/).filter(Boolean);
@@ -41,7 +41,7 @@ const InquiryPage: React.FC = () => {
       systemicInefficiency.trim() !== '' &&
       words.length > 0 && words.length <= 200 &&
       capitalCommitment.trim() !== '' &&
-      controlAcknowledgment;
+      controlAcknowledgement;
 
     setIsFormValid(isValid);
   }, [formData]);
@@ -112,8 +112,8 @@ const InquiryPage: React.FC = () => {
             <textarea id="capitalCommitment" name="capitalCommitment" value={formData.capitalCommitment} onChange={handleChange} rows={4} placeholder="Define the 'Skin in the Game' currently deployed." className={inputStyle}></textarea>
           </div>
           <div className="flex items-start">
-            <input type="checkbox" id="controlAcknowledgment" name="controlAcknowledgment" checked={formData.controlAcknowledgment} onChange={handleChange} className="mt-1 h-4 w-4 text-gold border-slate/30 focus:ring-gold" />
-            <label htmlFor="controlAcknowledgment" className="ml-3 text-sm text-navy font-light">
+            <input type="checkbox" id="controlAcknowledgement" name="controlAcknowledgement" checked={formData.controlAcknowledgement} onChange={handleChange} className="mt-1 h-4 w-4 text-gold border-slate/30 focus:ring-gold" />
+            <label htmlFor="controlAcknowledgement" className="ml-3 text-sm text-navy font-light">
               I understand and accept that King & Meyer operates under a Majority-Control and Institutional-Grade Mandate.
             </label>
           </div>
