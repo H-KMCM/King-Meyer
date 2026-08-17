@@ -6,31 +6,15 @@ interface PartnerColumn {
   caption: string;
   status: string;
   isPending: boolean;
-  renderLogo?: () => React.ReactNode;
 }
-
-const StoneXLogo = () => (
-  <div className="flex items-center justify-center gap-2 w-full">
-    <svg className="h-6 w-auto text-slate-100 shrink-0" viewBox="0 0 32 32" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M7 7 L25 25 M25 7 L7 25" strokeWidth="3.5" strokeLinecap="round" />
-    </svg>
-    <div className="text-white font-sans text-xl md:text-2xl font-bold tracking-tight">
-      Stone<span className="text-slate-100">X</span>
-    </div>
-  </div>
-);
 
 const GovernanceColumnItem: React.FC<{ item: PartnerColumn }> = ({ item }) => {
   return (
     <div className="flex flex-col items-center justify-between text-center p-6 min-h-[160px] w-full bg-slate-900/30 rounded-lg border border-white/5">
       <div className="h-12 flex items-center justify-center w-full text-center">
-        {item.renderLogo ? (
-          item.renderLogo()
-        ) : (
-          <div className="text-white font-sans text-xl md:text-2xl font-bold tracking-tight text-center w-full">
-            {item.title}
-          </div>
-        )}
+        <div className="text-white font-sans text-xl md:text-2xl font-bold tracking-tight text-center w-full">
+          {item.title}
+        </div>
       </div>
 
       <div className="my-2 space-y-2.5 w-full flex flex-col items-center justify-center">
@@ -58,8 +42,8 @@ const GovernanceColumnItem: React.FC<{ item: PartnerColumn }> = ({ item }) => {
 const InstitutionalInfrastructure: React.FC = () => {
   const columns: PartnerColumn[] = [
     {
-      title: 'AIFM',
-      caption: 'Regulatory Host',
+      title: 'Hosted Management',
+      caption: 'Delegated Fund Management',
       status: 'Pending Registration',
       isPending: true,
     },
@@ -80,7 +64,6 @@ const InstitutionalInfrastructure: React.FC = () => {
       caption: 'Prime Broker & Execution',
       status: 'Active Partner',
       isPending: false,
-      renderLogo: () => <StoneXLogo />,
     },
   ];
 
@@ -91,7 +74,7 @@ const InstitutionalInfrastructure: React.FC = () => {
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 mb-6">
             <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span className="text-[11px] text-amber-300 uppercase tracking-[0.2em] font-semibold">
-              AIFM Regulation Process In Progress
+              Hosted Fund Management Process In Progress
             </span>
           </div>
 
@@ -100,7 +83,7 @@ const InstitutionalInfrastructure: React.FC = () => {
           </h2>
 
           <p className="mt-4 text-xs md:text-sm text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
-            King & Meyer Holdings Limited is currently going through the process for regulation via an AIFM (Alternative Investment Fund Manager).
+            King & Meyer Holdings Limited is currently going through the process for regulation via hosted and delegated fund management.
           </p>
         </div>
 

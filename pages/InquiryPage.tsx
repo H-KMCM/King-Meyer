@@ -100,6 +100,7 @@ const InquiryPage: React.FC = () => {
               <option>NEON</option>
               <option>Legacy Assets</option>
               <option>Digital Layer</option>
+              <option>Digital Infrastructure</option>
             </select>
           </div>
           <div>

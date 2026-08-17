@@ -25,6 +25,12 @@ const verticals = [
     title: 'Digital Integration (Legacy Line)',
     subtitle: 'The Engine of Scalability.',
     description: 'A data-driven, AI-assisted concierge layer for the elderly. We are building the early-service layer for the future of digital-human care integration.'
+  },
+  {
+    number: '05',
+    title: 'Digital Infrastructure (Compute & Power)',
+    subtitle: 'The Engine of Compute & Power.',
+    description: 'Capitalising high-density Tier-4 AI data centre assets and securing sovereign-grade power grid entitlements. We acquire fibre-dense site control, engineer isolated infrastructure SPVs, and establish an inflation-hedged, hard-asset yield floor backed by long-term enterprise leases.'
   }
 ];
 
