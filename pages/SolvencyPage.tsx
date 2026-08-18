@@ -3,16 +3,16 @@ import React from 'react';
 
 const focusAreas = [
   {
-    title: 'The Care Crisis',
-    description: 'Replacing failing state and low-tier private care with solvent, high-yield, human-centric infrastructure.'
+    title: 'The Demographic Imbalance',
+    description: 'Capitalising specialised healthcare real estate and longevity infrastructure to capture sticky, inflation-hedged yields driven by secular demographic shifts.'
   },
   {
-    title: 'The Performance Gap',
-    description: 'Solving the burn-out and under-utilisation of the world’s most intense leaders (Neuro-Performance).'
+    title: 'Cognitive Capacity',
+    description: 'Deploying clinical-grade performance architecture to eliminate executive decision drag and protect key-person capital across high-stakes leadership teams.'
   },
   {
-    title: 'Capital Fragility',
-    description: 'Moving away from speculative "growth" toward asset-backed, cash-flowing durability.'
+    title: 'Balance Sheet Durability',
+    description: 'Reallocating capital away from speculative market growth toward asset-backed, systematic compounding and tail-risk insulation.'
   }
 ];
 
@@ -22,12 +22,12 @@ const SolvencyPage: React.FC = () => {
       <div className="px-12 md:px-24 max-w-4xl mx-auto text-center">
         <span className="text-gold text-xs uppercase tracking-[0.5em] font-bold">Our Framework</span>
         <h1 className="text-navy text-4xl md:text-7xl mt-6 leading-tight font-serif">
-          Impact is Alpha.
+          Structure is Alpha.
         </h1>
         <div className="mt-16 text-left max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-navy font-serif">The Thesis</h2>
           <p className="text-slate mt-4 text-xl leading-relaxed font-light italic">
-            The greatest financial returns of the next 30 years will come from solving the world’s most acute systemic failures.
+            "The highest risk-adjusted returns over the next 30 years will come from capitalising essential, supply-constrained infrastructure."
           </p>
         </div>
         <div className="mt-20 text-left max-w-3xl mx-auto">

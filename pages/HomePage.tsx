@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
         <div className="max-w-5xl fade-in">
           <div className="h-px bg-gold w-[60px] mb-8"></div>
           <h1 className="text-white text-4xl md:text-7xl mb-8 leading-[1.1] font-serif">
-            Engineering Systemic Solvency. <br className="hidden md:block" />
+            Engineering Balance Sheet Solvency. <br className="hidden md:block" />
             Eliminating Cognitive Drag.
           </h1>
           <p className="text-slate text-xl md:text-2xl max-w-3xl mb-12 font-light leading-relaxed">
@@ -37,6 +37,12 @@ const HomePage: React.FC = () => {
           <p className="text-slate text-base md:text-lg mt-8 max-w-3xl mx-auto font-light leading-relaxed">
             Traditional capital allocation degrades under discretionary emotional drag, execution delays, and unhedged tail-risk shocks. King & Meyer bridges the gap between macro volatility and asset-backed durability through automated execution, strict risk boundaries, and institutional governance.
           </p>
+          <div className="mt-12 pt-10 border-t border-slate-200/60 max-w-3xl mx-auto">
+            <span className="text-gold text-xs uppercase tracking-[0.3em] font-bold block mb-3">Structural Solvency</span>
+            <p className="text-navy text-lg md:text-xl font-serif italic leading-relaxed">
+              "Structural Solvency is the alignment of liquid quantitative execution, inflation-hedged physical infrastructure, and strict capital preservation parameters, ensuring multi-generational balance sheet durability regardless of macro regime shifts."
+            </p>
+          </div>
         </div>
       </section>
 
