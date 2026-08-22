@@ -34,6 +34,7 @@ const Header: React.FC = () => {
       <Link to="/solvency" className="hover:text-gold transition-colors block py-3">Structural Solvency</Link>
       <Link to="/intelligence-theses" className="hover:text-gold transition-colors block py-3">Intelligence &amp; Theses</Link>
       <Link to="/institutional-access" className="hover:text-gold transition-colors block py-3">Institutional Access</Link>
+      <Link to="/login" className="hover:text-gold transition-colors block py-3">Log In</Link>
       <Link to="/inquiry" className="border border-gold px-6 py-3 mt-4 inline-block hover:bg-gold hover:text-white transition-colors">Strategic Inquiry</Link>
     </>
   );
@@ -46,6 +47,7 @@ const Header: React.FC = () => {
         <Link to="/solvency" className="hover:text-gold transition-colors">Structural Solvency</Link>
         <Link to="/intelligence-theses" className="hover:text-gold transition-colors">Intelligence &amp; Theses</Link>
         <Link to="/institutional-access" className="hover:text-gold transition-colors">Institutional Access</Link>
+        <Link to="/login" className="hover:text-gold transition-colors">Log In</Link>
         <Link to="/inquiry" className="border border-gold px-4 py-1 hover:bg-gold hover:text-white transition-colors">Strategic Inquiry</Link>
       </>
   );

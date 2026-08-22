@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { SiteProvider } from './context/SiteContext';
 import InstitutionalLoginPage from './pages/InstitutionalLoginPage';
 import InstitutionalPortalPage from './pages/InstitutionalPortalPage';
+import InvestorPortalPage from './pages/InvestorPortalPage';
 import InstitutionalProtectedRoute from './components/InstitutionalProtectedRoute';
 
 function App() {
@@ -47,7 +48,15 @@ function App() {
             path="/institutional-portal" 
             element={
               <InstitutionalProtectedRoute>
-                <InstitutionalPortalPage />
+                <InvestorPortalPage />
+              </InstitutionalProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/investor" 
+            element={
+              <InstitutionalProtectedRoute>
+                <InvestorPortalPage />
               </InstitutionalProtectedRoute>
             } 
           />
