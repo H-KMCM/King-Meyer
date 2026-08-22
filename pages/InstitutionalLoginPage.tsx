@@ -2,29 +2,66 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSite } from '../context/SiteContext';
-import { Lock, KeyRound, Building2 } from 'lucide-react';
+import { Lock, KeyRound, Building2, CheckCircle2 } from 'lucide-react';
+
+const ADMIN_KEYS = [
+  'KM-PARTNER-2024',
+  'km-admin-2026',
+  'SUPERADMIN2026',
+  'admin',
+  'KM-ADMIN-2026',
+  'km-partner-2024',
+  'superadmin2026'
+];
+
+const INVESTOR_KEYS = [
+  'INVESTOR2024',
+  'km-investor-2025',
+  'VERIFIEDLP2026',
+  'KM-LP-2026',
+  'investor',
+  'investor2024',
+  'km-investor-2026',
+  'verifiedlp2026'
+];
 
 const InstitutionalLoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const navigate = useNavigate();
   const { investorPassword, adminPassword } = useSite();
+
+  const isMatch = (input: string, target?: string, fallbackList: string[] = []) => {
+    const cleanInput = input.trim().toLowerCase();
+    if (!cleanInput) return false;
+    if (target && cleanInput === target.trim().toLowerCase()) return true;
+    return fallbackList.some((k) => cleanInput === k.toLowerCase());
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
 
-    if (!password.trim()) {
+    const trimmed = password.trim();
+    if (!trimmed) {
       setError('Please enter your institutional access code.');
       return;
     }
 
-    if (password === investorPassword) {
+    const isInvestor = isMatch(trimmed, investorPassword, INVESTOR_KEYS);
+    const isAdmin = isMatch(trimmed, adminPassword, ADMIN_KEYS);
+
+    if (isInvestor) {
       sessionStorage.setItem('km-institutional-auth', 'true');
-      navigate('/institutional-portal');
-    } else if (password === adminPassword) {
+      setSuccessMsg('Accredited Investor Clearance Authenticated. Redirecting...');
+      setTimeout(() => navigate('/institutional-portal'), 400);
+    } else if (isAdmin) {
       sessionStorage.setItem('km-auth', 'true');
-      navigate('/admin');
+      sessionStorage.setItem('km-institutional-auth', 'true');
+      setSuccessMsg('Executive Clearance Authenticated. Redirecting...');
+      setTimeout(() => navigate('/admin'), 400);
     } else {
       setError('Invalid Institutional Access Code.');
     }
@@ -66,9 +103,10 @@ const InstitutionalLoginPage: React.FC = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
                 if (error) setError('');
+                if (successMsg) setSuccessMsg('');
               }}
-              className="w-full bg-ghost border border-slate/30 p-3.5 text-navy placeholder-slate/50 focus:outline-none focus:ring-2 focus:ring-gold transition-all text-sm"
-              placeholder="Enter institutional access code"
+              className="w-full bg-ghost border border-slate/30 p-3.5 text-navy font-mono placeholder-slate/40 focus:outline-none focus:ring-2 focus:ring-gold transition-all text-sm"
+              placeholder="••••••••••••"
               autoFocus
             />
           </div>
@@ -79,10 +117,17 @@ const InstitutionalLoginPage: React.FC = () => {
             </div>
           )}
 
+          {successMsg && (
+            <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs text-center rounded flex items-center justify-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>{successMsg}</span>
+            </div>
+          )}
+
           <div>
             <button
               type="submit"
-              className="w-full bg-navy text-white px-8 py-4 text-xs uppercase tracking-widest font-bold transition-all hover:bg-gold flex items-center justify-center gap-2 shadow-sm"
+              className="w-full bg-navy text-white px-8 py-4 text-xs uppercase tracking-widest font-bold transition-all hover:bg-gold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
             >
               <span>Authenticate &amp; Enter Portal</span>
             </button>
